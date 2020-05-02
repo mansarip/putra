@@ -1,14 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { ThemeProvider, defaultTheme } from "evergreen-ui";
+
+/**
+ * override default font
+ */
+const myTheme = { ...defaultTheme };
+myTheme.typography.fontFamilies.display = "Jost";
+myTheme.typography.fontFamilies.ui = "Jost";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider value={myTheme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
