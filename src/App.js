@@ -15,17 +15,22 @@ export default function App() {
         background="#fff"
         userSelect="none"
       >
-        <Heading
+        <Pane
+          display="flex"
+          alignItems="center"
           userSelect="none"
-          fontWeight="bold"
-          color="#333"
-          fontFamily="inherit"
-          fontSize={20}
+          className="tap"
         >
-          Putra.me
-          <br />
-          <Text>Simple ID Creation</Text>
-        </Heading>
+          <Heading
+            userSelect="none"
+            fontWeight="bold"
+            color="#333"
+            fontFamily="inherit"
+            fontSize={20}
+          >
+            Putra.me
+          </Heading>
+        </Pane>
 
         <Pane
           display="flex"
