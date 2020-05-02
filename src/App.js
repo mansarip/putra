@@ -40,9 +40,9 @@ export default function App() {
           className="tap"
         >
           <img
-            src="/images/interface.svg"
+            src="/images/comment.svg"
             alt=""
-            style={{ width: 25, marginRight: 10 }}
+            style={{ height: 20, marginRight: 10 }}
           />
           <Text color="#333" fontWeight="bold">
             Lang (EN)
@@ -58,7 +58,7 @@ export default function App() {
       >
         <MainButton icon="qr-code.svg" label="Generate QR" />
         <MainButton icon="business.svg" label="Scanner" />
-        <MainButton icon="team.svg" label="Host" />
+        <MainButton icon="team.svg" label="Reporting" />
         <MainButton icon="document.svg" label="Others" />
       </Pane>
 
