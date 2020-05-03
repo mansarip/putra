@@ -59,6 +59,7 @@ export default function PageQRShow() {
           color="#333"
           textAlign="center"
           fontWeight="bold"
+          userSelect="none"
         >
           {name}
           <br />
