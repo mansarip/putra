@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Topbar from "./Topbar";
-import QRCode from "qrcode.react";
 import { Icon, Spinner, Text, Pane, Paragraph } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import { openDB } from "idb";
@@ -40,7 +39,7 @@ export default function PageQR() {
     <>
       <Topbar
         hasArrowBack
-        onClickArrowBack={() => history.goBack()}
+        onClickArrowBack={() => history.replace("/")}
         leftElement={
           <Text fontSize={18} color="#333" fontWeight="bold">
             QR Code
@@ -86,6 +85,12 @@ export default function PageQR() {
                 //   setShowQR(true);
                 //   setQrContent(record.content);
                 // }}
+                onClick={() =>
+                  history.push("/qr/show", {
+                    list: list,
+                    activeRecord: record,
+                  })
+                }
                 key={index}
                 display="grid"
                 gridTemplateColumns="1fr 120px"
