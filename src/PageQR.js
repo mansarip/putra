@@ -10,6 +10,8 @@ export default function PageQR() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [list, setList] = useState([]);
+  // const [showQR, setShowQR] = useState(false);
+  // const [qrContent, setQrContent] = useState("");
 
   async function fetchList() {
     // open db
@@ -80,9 +82,13 @@ export default function PageQR() {
           <Pane background="#ececec">
             {list.map((record, index) => (
               <Pane
+                // onClick={() => {
+                //   setShowQR(true);
+                //   setQrContent(record.content);
+                // }}
                 key={index}
                 display="grid"
-                gridTemplateColumns="1fr 1fr"
+                gridTemplateColumns="1fr 120px"
                 columnGap={10}
                 className="tap"
                 background="#fff"
@@ -93,8 +99,15 @@ export default function PageQR() {
                   justifyContent="center"
                   flexDirection="column"
                   padding={15}
+                  overflow="hidden"
                 >
-                  <Text fontWeight="bold" color="#333">
+                  <Text
+                    fontWeight="bold"
+                    color="#333"
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                  >
                     {record.name}
                   </Text>
                   <Text>{record.phone}</Text>
@@ -126,6 +139,19 @@ export default function PageQR() {
             Tap <b>+New</b> to generate.
           </Paragraph>
         )}
+
+        {/* {showQR && (
+          <Pane
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            background="#fff"
+          >
+            <QRCode value={qrContent} />
+          </Pane>
+        )} */}
       </Pane>
 
       {/* <QRCode value={name} /> */}
