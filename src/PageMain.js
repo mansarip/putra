@@ -1,5 +1,5 @@
 import React from "react";
-import { Pane, Text, Heading } from "evergreen-ui";
+import { Pane, Text } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
       >
         <MainButton
           icon="qr-code.svg"
-          label="Generate QR"
+          label="QR Code"
           onClick={() => history.push("/qr")}
         />
         <MainButton icon="business.svg" label="Scanner" />
