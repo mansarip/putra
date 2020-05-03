@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
+  background-color: #fff;
 }
 
 code {
@@ -14,5 +15,5 @@ code {
 }
 
 .tap:active {
-  opacity: 0.6;
+  opacity: 0.4;
 }

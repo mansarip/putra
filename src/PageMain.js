@@ -8,51 +8,19 @@ export default function App() {
   return (
     <>
       <Pane
-        display="grid"
-        gridTemplateColumns="1fr 1fr"
-        columnGap={10}
-        paddingY={20}
-        paddingX={15}
-        borderBottom="0px solid #ececec"
-        boxShadow="0px 1px 5px 1px #ececec"
-        background="#fff"
-        userSelect="none"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        paddingY={15}
       >
-        <Pane display="flex" alignItems="center" userSelect="none">
-          <Heading
-            userSelect="none"
-            fontWeight="bold"
-            color="#333"
-            fontFamily="inherit"
-            fontSize={20}
-          >
-            Putra.me
-          </Heading>
-        </Pane>
-
-        <Pane
-          display="flex"
-          justifyContent="flex-end"
-          alignItems="center"
-          userSelect="none"
-          className="tap"
-        >
-          <img
-            src="/images/comment.svg"
-            alt=""
-            style={{ height: 20, marginRight: 10 }}
-          />
-          <Text color="#333" fontWeight="bold">
-            Lang (EN)
-          </Text>
-        </Pane>
+        <img src="/images/putra.svg" alt="" style={{ height: 50 }} />
       </Pane>
-
       <Pane
         display="grid"
         gridTemplateColumns="1fr 1fr"
         columnGap={10}
         padding={15}
+        flex={1}
       >
         <MainButton
           icon="qr-code.svg"
@@ -61,7 +29,11 @@ export default function App() {
         />
         <MainButton icon="business.svg" label="Scanner" />
         <MainButton icon="team.svg" label="Reporting" />
-        <MainButton icon="document.svg" label="Others" />
+        <MainButton icon="document.svg" label="Guide" />
+        <MainButton icon="conversation.svg" label="Language" />
+        <MainButton icon="heart.svg" label="Donate" />
+        <MainButton icon="key.svg" label="Settings" />
+        <MainButton icon="bag.svg" label="About" />
       </Pane>
     </>
   );
@@ -70,7 +42,7 @@ export default function App() {
 function MainButton({ label, icon, onClick }) {
   return (
     <Pane
-      background="#fff"
+      background="#fafafa"
       padding={10}
       boxShadow="0px 1px 1px 1px #ececec"
       borderRadius={5}
