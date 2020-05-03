@@ -11,9 +11,11 @@
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "replaceall": "^0.1.6"
+    "replaceall": "^0.1.6",
+    "use-sound": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

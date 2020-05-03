@@ -27,7 +27,11 @@ export default function App() {
           label="QR Code"
           onClick={() => history.push("/qr")}
         />
-        <MainButton icon="business.svg" label="Scanner" />
+        <MainButton
+          icon="business.svg"
+          label="Scanner"
+          onClick={() => history.push("/scanner")}
+        />
         <MainButton icon="team.svg" label="Reporting" />
         <MainButton icon="document.svg" label="Guide" />
         <MainButton icon="conversation.svg" label="Language" />
