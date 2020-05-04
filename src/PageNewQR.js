@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import Topbar from "./Topbar";
 import { Text, Pane, TextInput, Paragraph, Alert } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
-import { openDB } from "idb";
-import { DB_NAME } from "./constant";
 import replaceall from "replaceall";
+import db from "./db";
 
 const MAX_NAME = 50;
 const MAX_PHONE = 15;
@@ -28,32 +27,17 @@ export default function PageNewQR() {
         throw new Error("Please insert your phone number.");
       }
 
-      // open db
-      const db = await openDB(DB_NAME, 1, {
-        upgrade: (db) => {
-          // buat jika tiada
-          db.createObjectStore("qrcodes", {
-            keyPath: "id",
-            autoIncrement: true,
-          });
-        },
-      });
-
-      // insert
       const properName = getProperName(name);
       const properPhone = getProperPhone(phone);
 
-      await db.add("qrcodes", {
+      db.table("qrcode").add({
         name: properName,
         phone: properPhone,
         content: `${properName}|${properPhone}`,
-        dateCreated: new Date(),
       });
 
-      db.close();
-
       // back
-      history.replace("/qr");
+      history.goBack();
     } catch (e) {
       setIsShowError(true);
       setErrorMessage(e.message);

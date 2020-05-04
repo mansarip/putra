@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import Topbar from "./Topbar";
 import { Icon, Spinner, Text, Pane, Paragraph, Dialog } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
-import { openDB } from "idb";
-import { DB_NAME } from "./constant";
+import db from "./db";
 
 export default function PageQR() {
   const history = useHistory();
@@ -11,30 +10,13 @@ export default function PageQR() {
   const [list, setList] = useState([]);
   const [isShowModalRemove, setIsShowModalRemove] = useState(false);
   const [removeRecord, setRemoveRecord] = useState({});
-  // const [showQR, setShowQR] = useState(false);
-  // const [qrContent, setQrContent] = useState("");
 
   async function remove(recordId) {
-    const db = await openDB(DB_NAME, 1);
-    await db.delete("qrcodes", recordId);
-    db.close();
+    await db.table("qrcode").delete(recordId);
   }
 
   async function fetchList() {
-    // open db
-    const db = await openDB(DB_NAME, 1, {
-      upgrade: (db) => {
-        // buat jika tiada
-        db.createObjectStore("qrcodes", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
-      },
-    });
-
-    const res = await db.getAll("qrcodes");
-    db.close();
-
+    const res = await db.table("qrcode").toArray();
     setList(res.reverse());
     setIsLoading(false);
   }
@@ -42,12 +24,6 @@ export default function PageQR() {
   useEffect(() => {
     fetchList();
   }, []);
-
-  // useEffect(() => {
-  //   if (isShowModalRemove === false) {
-  //     setRemoveRecord({});
-  //   }
-  // }, [isShowModalRemove]);
 
   return (
     <>
@@ -71,7 +47,7 @@ export default function PageQR() {
             className="tap"
             onClick={() => history.push("/qr/new")}
           >
-            <Icon icon="plus" marginRight={5} />
+            <Icon icon="plus" marginRight={5} size={15} />
             <Text fontSize={14} color="inherit" fontWeight="bold">
               New
             </Text>
