@@ -6,18 +6,35 @@ import { useHistory } from "react-router-dom";
 import QrReader from "react-qr-reader";
 import useSound from "use-sound";
 import beep from "./beep.wav";
+import errorBuzz from "./error.wav";
 import moment from "moment/moment";
 import db from "./db";
 
 const READY = "READY";
 const SUCCESS = "SUCCESS";
-const FAILED = "FAILED";
+const ERROR = "ERROR";
 const BEEP_OFF = "BEEP_OFF";
+
+const colors = {
+  READY: {
+    background: "#ffeede",
+    border: "#ecdbca",
+  },
+  SUCCESS: {
+    background: "#16b528",
+    border: "#157b20",
+  },
+  ERROR: {
+    background: "#cc0606",
+    border: "#862a0e",
+  },
+};
 
 export default function PageScanner() {
   const history = useHistory();
   const [playBeep] = useSound(beep);
-  const [isBeepOn, setIsBeepOn] = useState(localStorage.getItem(BEEP_OFF) === "1" ? false : true); // prettier-ignore
+  const [playErrorBuzz] = useSound(errorBuzz);
+  const [isSoundOn, setIsSoundOn] = useState(localStorage.getItem(BEEP_OFF) === "1" ? false : true); // prettier-ignore
   const [cameraStatus, setCameraStatus] = useState(READY);
 
   function processResult(result) {
@@ -38,16 +55,16 @@ export default function PageScanner() {
     if (name && name !== "" && phone && phone !== "") {
       scanSuccess({ name, phone, result });
     } else {
-      scanSuccess({ name, phone, result });
+      scanFailed({ result });
     }
   }
 
   function scanFailed({ result }) {
-    if (isBeepOn) {
-      playBeep();
+    if (isSoundOn) {
+      playErrorBuzz();
     }
 
-    setCameraStatus(FAILED);
+    setCameraStatus(ERROR);
 
     storeRecord({
       isSuccess: false,
@@ -56,7 +73,7 @@ export default function PageScanner() {
   }
 
   function scanSuccess({ name, phone, result }) {
-    if (isBeepOn) {
+    if (isSoundOn) {
       playBeep();
     }
 
@@ -120,17 +137,17 @@ export default function PageScanner() {
             color="#fff"
             borderRadius={20}
             onClick={() => {
-              setIsBeepOn(!isBeepOn);
-              localStorage.setItem(BEEP_OFF, isBeepOn ? "1" : "0");
+              setIsSoundOn(!isSoundOn);
+              localStorage.setItem(BEEP_OFF, isSoundOn ? "1" : "0");
             }}
           >
             <Icon
-              icon={isBeepOn ? "volume-up" : "volume-off"}
+              icon={isSoundOn ? "volume-up" : "volume-off"}
               marginRight={5}
               size={13}
             />
             <Text fontSize={14} color="inherit" fontWeight="bold">
-              {isBeepOn ? "On" : "Off"}
+              {isSoundOn ? "On" : "Off"}
             </Text>
           </Pane>
         }
@@ -162,7 +179,8 @@ export default function PageScanner() {
           flexDirection="column"
         >
           <Pane
-            background={getButtonColor(cameraStatus)}
+            background={colors[cameraStatus].background}
+            borderBottom={`6px solid ${colors[cameraStatus].border}`}
             height={100}
             width={100}
             borderRadius="50%"
@@ -178,12 +196,14 @@ export default function PageScanner() {
             >
               {cameraStatus === READY && "Ready"}
               {cameraStatus === SUCCESS && "DONE!"}
+              {cameraStatus === ERROR && "ERROR!"}
             </Text>
           </Pane>
 
-          <Paragraph color="#333" marginY={10}>
+          <Paragraph color="#333" marginY={10} lineHeight={1.2}>
             {cameraStatus === READY && "Ready to scan."}
             {cameraStatus === SUCCESS && "Tap to continue."}
+            {cameraStatus === ERROR && "Tap to continue."}
           </Paragraph>
 
           <button
@@ -196,14 +216,4 @@ export default function PageScanner() {
       </Pane>
     </>
   );
-}
-
-function getButtonColor(status) {
-  if (status === READY) {
-    return "#ffeede";
-  }
-
-  if (status === SUCCESS) {
-    return "#16b528";
-  }
 }

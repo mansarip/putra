@@ -1,6 +1,12 @@
 import React from "react";
 import { Pane, Text } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
+import SVGQrcode from "./svg/qr-code.svg";
+import SVGBusiness from "./svg/business.svg";
+import SVGTeam from "./svg/team.svg";
+import SVGDocument from "./svg/document.svg";
+import SVGKey from "./svg/key.svg";
+import SVGBag from "./svg/bag.svg";
 
 export default function App() {
   const history = useHistory();
@@ -24,21 +30,24 @@ export default function App() {
         flex={1}
       >
         <MainButton
-          icon="qr-code.svg"
+          icon={SVGQrcode}
           label="QR Code"
           onClick={() => history.push("/qr")}
         />
         <MainButton
-          icon="business.svg"
+          icon={SVGBusiness}
           label="Scanner"
           onClick={() => history.push("/scanner")}
         />
-        <MainButton icon="team.svg" label="Reporting" />
-        <MainButton icon="document.svg" label="Guide" />
+        <MainButton icon={SVGTeam} label="Logs" />
+        <MainButton icon={SVGDocument} label="Guide" />
+        <MainButton icon={SVGKey} label="Settings" />
+        <MainButton icon={SVGBag} label="About" />
+        {/* <MainButton icon="document.svg" label="Guide" /> */}
         {/* <MainButton icon="conversation.svg" label="Language" />
         <MainButton icon="heart.svg" label="Donate" /> */}
-        <MainButton icon="key.svg" label="Settings" />
-        <MainButton icon="bag.svg" label="About" />
+        {/* <MainButton icon="key.svg" label="Settings" />
+        <MainButton icon="bag.svg" label="About" /> */}
       </Pane>
     </>
   );
@@ -62,7 +71,8 @@ function MainButton({ label, icon, onClick, background }) {
       onClick={onClick || null}
     >
       <Pane width={50} marginY={10}>
-        <img src={`/images/${icon}`} alt="" style={{ width: "100%" }} />
+        {/* <img src={`/images/${icon}`} alt="" style={{ width: "100%" }} /> */}
+        <img src={icon} alt="" style={{ width: "100%" }} />
       </Pane>
       <Text fontSize={16} fontWeight="bold" color="#333">
         {label}
