@@ -124,7 +124,7 @@ export default function PageQRShow() {
           className="tap"
           userSelect="none"
           margin={15}
-          onClick={() => history.replace("/qr")}
+          onClick={() => history.goBack()}
         >
           <Text color="#fff" fontWeight="bold">
             Close

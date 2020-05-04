@@ -4,6 +4,7 @@ import PageMain from "./PageMain";
 import PageQR from "./PageQR";
 import PageNewQR from "./PageNewQR";
 import PageQRShow from "./PageQRShow";
+import PageScanner from "./PageScanner";
 
 export default function App() {
   return (
@@ -23,6 +24,10 @@ export default function App() {
 
         <Route exact path="/qr/show">
           <PageQRShow />
+        </Route>
+
+        <Route exact path="/scanner">
+          <PageScanner />
         </Route>
       </Switch>
     </Router>

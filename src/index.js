@@ -13,11 +13,9 @@ myTheme.typography.fontFamilies.display = "Jost";
 myTheme.typography.fontFamilies.ui = "Jost";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider value={myTheme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider value={myTheme}>
+    <App />
+  </ThemeProvider>,
   document.getElementById("root")
 );
 
