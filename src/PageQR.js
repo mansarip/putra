@@ -14,6 +14,12 @@ export default function PageQR() {
   // const [showQR, setShowQR] = useState(false);
   // const [qrContent, setQrContent] = useState("");
 
+  async function remove(recordId) {
+    const db = await openDB(DB_NAME, 1);
+    await db.delete("qrcodes", recordId);
+    db.close();
+  }
+
   async function fetchList() {
     // open db
     const db = await openDB(DB_NAME, 1, {
@@ -36,6 +42,12 @@ export default function PageQR() {
   useEffect(() => {
     fetchList();
   }, []);
+
+  // useEffect(() => {
+  //   if (isShowModalRemove === false) {
+  //     setRemoveRecord({});
+  //   }
+  // }, [isShowModalRemove]);
 
   return (
     <>
@@ -133,7 +145,7 @@ export default function PageQR() {
                     icon="ban-circle"
                     color="#cc0606"
                     marginRight={5}
-                    size={13}
+                    size={15}
                   />
                   {/* <Text color="#cc0606">Remove</Text> */}
                 </Pane>
@@ -204,6 +216,12 @@ export default function PageQR() {
             height={35}
             borderRadius={20}
             className="tap"
+            onClick={() => {
+              setIsShowModalRemove(false);
+              remove(removeRecord.id);
+              fetchList();
+              setRemoveRecord({});
+            }}
           >
             <Text fontSize={15} fontWeight="bold" color="#fff">
               Yes, Remove
