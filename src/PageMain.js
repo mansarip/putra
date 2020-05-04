@@ -35,8 +35,8 @@ export default function App() {
         />
         <MainButton icon="team.svg" label="Reporting" />
         <MainButton icon="document.svg" label="Guide" />
-        <MainButton icon="conversation.svg" label="Language" />
-        <MainButton icon="heart.svg" label="Donate" />
+        {/* <MainButton icon="conversation.svg" label="Language" />
+        <MainButton icon="heart.svg" label="Donate" /> */}
         <MainButton icon="key.svg" label="Settings" />
         <MainButton icon="bag.svg" label="About" />
       </Pane>
@@ -44,10 +44,10 @@ export default function App() {
   );
 }
 
-function MainButton({ label, icon, onClick }) {
+function MainButton({ label, icon, onClick, background }) {
   return (
     <Pane
-      background="#fafafa"
+      background={background || "#fff"}
       padding={10}
       boxShadow="0px 1px 1px 1px #ececec"
       borderRadius={5}
