@@ -11,9 +11,10 @@ export default function App() {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        paddingY={15}
+        paddingTop={30}
+        background="url('/images/diamond-upholstery.png')"
       >
-        <img src="/images/putra.svg" alt="" style={{ height: 50 }} />
+        <img src="/images/putra.svg" alt="" style={{ height: 100 }} />
       </Pane>
       <Pane
         display="grid"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Topbar from "./Topbar";
-import { Icon, Spinner, Text, Pane, Paragraph } from "evergreen-ui";
+import { Icon, Spinner, Text, Pane, Paragraph, Dialog } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import { openDB } from "idb";
 import { DB_NAME } from "./constant";
@@ -9,6 +9,8 @@ export default function PageQR() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [list, setList] = useState([]);
+  const [isShowModalRemove, setIsShowModalRemove] = useState(false);
+  const [removeRecord, setRemoveRecord] = useState({});
   // const [showQR, setShowQR] = useState(false);
   // const [qrContent, setQrContent] = useState("");
 
@@ -81,23 +83,13 @@ export default function PageQR() {
           <Pane background="#ececec">
             {list.map((record, index) => (
               <Pane
-                // onClick={() => {
-                //   setShowQR(true);
-                //   setQrContent(record.content);
-                // }}
-                onClick={() =>
-                  history.push("/qr/show", {
-                    list: list,
-                    activeRecord: record,
-                  })
-                }
                 key={index}
                 display="grid"
-                gridTemplateColumns="1fr 120px"
+                gridTemplateColumns="1fr 50px"
                 columnGap={10}
                 className="tap"
                 background="#fff"
-                marginBottom={2}
+                marginBottom={1}
               >
                 <Pane
                   display="flex"
@@ -105,6 +97,12 @@ export default function PageQR() {
                   flexDirection="column"
                   padding={15}
                   overflow="hidden"
+                  onClick={() =>
+                    history.push("/qr/show", {
+                      list: list,
+                      activeRecord: record,
+                    })
+                  }
                 >
                   <Text
                     fontWeight="bold"
@@ -112,10 +110,13 @@ export default function PageQR() {
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow="ellipsis"
+                    fontSize={15}
                   >
                     {record.name}
                   </Text>
-                  <Text>{record.phone}</Text>
+                  <Text color="#333" fontSize={13}>
+                    {record.phone}
+                  </Text>
                 </Pane>
                 <Pane
                   display="flex"
@@ -123,9 +124,18 @@ export default function PageQR() {
                   alignItems="center"
                   flexDirection="row"
                   paddingRight={15}
+                  onClick={() => {
+                    setIsShowModalRemove(true);
+                    setRemoveRecord(record);
+                  }}
                 >
-                  <Icon icon="search" color="grey" marginRight={5} size={12} />
-                  <Text color="grey">Show QR</Text>
+                  <Icon
+                    icon="ban-circle"
+                    color="#cc0606"
+                    marginRight={5}
+                    size={13}
+                  />
+                  {/* <Text color="#cc0606">Remove</Text> */}
                 </Pane>
               </Pane>
             ))}
@@ -144,22 +154,63 @@ export default function PageQR() {
             Tap <b>+New</b> to generate.
           </Paragraph>
         )}
-
-        {/* {showQR && (
-          <Pane
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            background="#fff"
-          >
-            <QRCode value={qrContent} />
-          </Pane>
-        )} */}
       </Pane>
 
-      {/* <QRCode value={name} /> */}
+      <Dialog
+        isShown={isShowModalRemove}
+        hasHeader={false}
+        hasFooter={false}
+        onCloseComplete={() => setIsShowModalRemove(false)}
+      >
+        <Paragraph
+          fontSize={18}
+          color="#333"
+          fontWeight="bold"
+          textAlign="center"
+          // paddingY={20}
+        >
+          Remove QR Code?
+        </Paragraph>
+        <Paragraph color="#333" marginY={15} textAlign="center">
+          {removeRecord.name}
+          <br />
+          {removeRecord.phone}
+        </Paragraph>
+        <Pane
+          display="grid"
+          gridTemplateColumns="1fr 1fr"
+          columnGap={10}
+          paddingX={10}
+        >
+          <Pane
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            background="#ececec"
+            height={35}
+            borderRadius={20}
+            className="tap"
+            onClick={() => setIsShowModalRemove(false)}
+          >
+            <Text fontSize={15} fontWeight="bold" color="#333">
+              Cancel
+            </Text>
+          </Pane>
+          <Pane
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            background="#cc0606"
+            height={35}
+            borderRadius={20}
+            className="tap"
+          >
+            <Text fontSize={15} fontWeight="bold" color="#fff">
+              Yes, Remove
+            </Text>
+          </Pane>
+        </Pane>
+      </Dialog>
     </>
   );
 }
