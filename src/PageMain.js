@@ -3,9 +3,8 @@ import { Pane, Text } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import SVGQrcode from "./svg/qr-code.svg";
 import SVGBusiness from "./svg/business.svg";
-import SVGTeam from "./svg/team.svg";
 import SVGDocument from "./svg/document.svg";
-import SVGKey from "./svg/key.svg";
+import SVGPutraLogo from "./svg/putralogo.svg";
 import SVGBag from "./svg/bag.svg";
 
 export default function App() {
@@ -14,44 +13,59 @@ export default function App() {
   return (
     <>
       <Pane
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        paddingTop={30}
-        background="url('/images/diamond-upholstery.png')"
-      >
-        <img src="/images/putra.svg" alt="" style={{ height: 100 }} />
-      </Pane>
-      <Pane
-        display="grid"
-        gridTemplateColumns="1fr 1fr"
-        columnGap={10}
-        padding={15}
+        position="absolute"
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        background="#fff"
         flex={1}
+        display="flex"
+        flexDirection="column"
       >
-        <MainButton
-          icon={SVGQrcode}
-          label="QR Code"
-          onClick={() => history.push("/qr")}
-        />
-        <MainButton
-          icon={SVGBusiness}
-          label="Scanner"
-          onClick={() => history.push("/scanner")}
-        />
-        <MainButton
-          icon={SVGTeam}
-          label="Logs"
-          onClick={() => history.push("/logs")}
-        />
-        <MainButton icon={SVGDocument} label="Guide" />
-        <MainButton icon={SVGKey} label="Settings" />
-        <MainButton icon={SVGBag} label="About" />
-        {/* <MainButton icon="document.svg" label="Guide" /> */}
-        {/* <MainButton icon="conversation.svg" label="Language" />
-        <MainButton icon="heart.svg" label="Donate" /> */}
-        {/* <MainButton icon="key.svg" label="Settings" />
-        <MainButton icon="bag.svg" label="About" /> */}
+        <Pane
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          background="url('/images/diamond-upholstery.png')"
+          flex={1.5}
+          flexDirection="column"
+          position="relative"
+          overflow="hidden"
+        >
+          <img src={SVGPutraLogo} alt="" style={{ height: 100 }} />
+        </Pane>
+
+        <Pane height={1} background="#e0e0e0"></Pane>
+        <Pane height={1} background="#fff"></Pane>
+        <Pane
+          background="#fafafa"
+          flex={1}
+          display="grid"
+          gridTemplateColumns="1fr 1fr"
+          columnGap={10}
+          padding={10}
+        >
+          <MainButton
+            icon={SVGQrcode}
+            label="QR Code"
+            onClick={() => history.push("/qr")}
+          />
+
+          <MainButton
+            icon={SVGBusiness}
+            label="Scanner"
+            onClick={() => history.push("/scanner")}
+          />
+
+          <MainButton
+            icon={SVGDocument}
+            label="Logs"
+            onClick={() => history.push("/logs")}
+          />
+
+          <MainButton icon={SVGBag} label="About" />
+        </Pane>
       </Pane>
     </>
   );
@@ -62,7 +76,7 @@ function MainButton({ label, icon, onClick, background }) {
     <Pane
       background={background || "#fff"}
       padding={10}
-      boxShadow="0px 1px 1px 1px #ececec"
+      boxShadow="0px 2px 3px 1px #ececec"
       borderRadius={5}
       userSelect="none"
       textAlign="center"
