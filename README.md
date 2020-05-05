@@ -1,3 +1,3 @@
-## Putra Simple QR Identity
+## Putra : Simple QR Identity
 
-Created by Luqman B. Shariffudin (Man Sarip)
+Akan ditulis kemudian.
