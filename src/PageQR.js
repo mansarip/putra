@@ -3,6 +3,7 @@ import Topbar from "./Topbar";
 import { Icon, Spinner, Text, Pane, Paragraph, Dialog } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import db from "./db";
+import capitalize from "capitalize";
 
 export default function PageQR() {
   const history = useHistory();
@@ -100,7 +101,7 @@ export default function PageQR() {
                     textOverflow="ellipsis"
                     fontSize={15}
                   >
-                    {record.name}
+                    {capitalize.words(record.name)}
                   </Text>
                   <Text color="#333" fontSize={13}>
                     {record.phone}

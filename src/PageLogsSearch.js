@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Topbar from "./Topbar";
+import React, { useState, useEffect, useMemo } from "react";
 import { Icon, Text, Pane, Paragraph } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import db from "./db";
@@ -7,28 +6,86 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import moment from "moment/moment";
 import capitalize from "capitalize";
+import matchSorter from "match-sorter";
 
-export default function PageLogDetails() {
+export default function PageLogSearch() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [list, setList] = useState([]);
-  const { dateTitle, date } = history.location.state;
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  // const { dateTitle, date } = history.location.state;
 
-  async function fetchList(date) {
-    let result = await db.table("log").where({ date: date }).sortBy("time");
-    result = result.reverse();
-
-    setList(result);
+  async function fetchList() {
+    const list = await db.table("log").toArray();
+    setList(list);
     setIsLoading(false);
   }
 
   useEffect(() => {
-    fetchList(date);
-  }, [date]);
+    fetchList();
+  }, []);
+
+  useMemo(() => {
+    if (searchValue.length >= 3) {
+      const result = matchSorter(list, searchValue, {
+        keys: [
+          { threshold: matchSorter.rankings.CONTAINS, key: "name" },
+          { threshold: matchSorter.rankings.CONTAINS, key: "phone" },
+        ],
+      });
+
+      setSearchResult(result);
+    } else {
+      setSearchResult([]);
+    }
+  }, [list, searchValue]);
+
+  console.log(searchResult);
 
   return (
     <>
-      <Topbar
+      <Pane
+        height={55}
+        background="#fff"
+        boxShadow="0px 1px 5px 1px #ececec"
+        userSelect="none"
+        position="fixed"
+        top={0}
+        left={0}
+        right={0}
+        display="grid"
+        gridTemplateColumns="55px 1fr"
+        zIndex={10}
+      >
+        <Pane
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          className="tap"
+          onClick={() => history.goBack()}
+        >
+          <Icon icon="arrow-left" size={20} />
+        </Pane>
+        <Pane display="flex" alignItems="center" paddingRight={15}>
+          <input
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            autoFocus
+            type="search"
+            placeholder="Search name, phone number"
+            style={{
+              fontFamily: "inherit",
+              fontSize: 16,
+              outline: "none",
+              height: "100%",
+              width: "100%",
+              border: "none",
+            }}
+          />
+        </Pane>
+      </Pane>
+      {/* <Topbar
         hasArrowBack
         onClickArrowBack={() => history.goBack()}
         leftElement={
@@ -46,32 +103,32 @@ export default function PageLogDetails() {
             <Icon icon="search" size={15} />
           </Pane>
         }
-      />
+      /> */}
 
       <Pane marginTop={55} userSelect="none">
-        {!isLoading && list.length <= 0 && (
+        {!isLoading && searchValue.length > 0 && searchResult.length <= 0 && (
           <Paragraph
             color="#333"
             fontSize={15}
             textAlign="center"
             paddingY={20}
           >
-            No logs available.
+            No result available.
           </Paragraph>
         )}
 
-        {!isLoading && list.length > 0 && (
+        {!isLoading && searchResult.length > 0 && (
           <Pane position="absolute" top={55} left={0} right={0} bottom={0}>
             <AutoSizer>
               {({ height, width }) => (
                 <FixedSizeList
                   height={height}
                   width={width}
-                  itemCount={list.length}
+                  itemCount={searchResult.length}
                   itemSize={90}
                 >
                   {({ index, style }) => {
-                    let item = list[index];
+                    let item = searchResult[index];
 
                     return (
                       <Pane
@@ -112,7 +169,11 @@ export default function PageLogDetails() {
                           <Text color="#333" fontSize={14}>
                             Tel: {item.phone}
                             <br />
-                            Time: {moment(item.time, "HHmm").format("HH:mm A")}
+                            Date:{" "}
+                            {moment(
+                              item.date + item.time,
+                              "YYYYMMDDHHmm"
+                            ).format("D MMM YYYY, HH:mm A")}
                           </Text>
                         </Pane>
                         <Pane

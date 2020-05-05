@@ -56,6 +56,8 @@ export default function PageLogs() {
             alignItems="center"
             justifyContent="flex-end"
             padding={15}
+            paddingRight={0}
+            onClick={() => history.push("/logs/search")}
           >
             <Icon icon="search" size={15} />
           </Pane>
