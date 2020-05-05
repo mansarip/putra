@@ -166,6 +166,7 @@ export default function PageScanner() {
       >
         <Pane flex={1} flexDirection="column" background="#000">
           <QrReader
+            delay={cameraStatus === READY ? 1300 : false}
             showViewFinder={cameraStatus === READY}
             onError={(a) => console.log(a)}
             onScan={(result) => processResult(result)}
@@ -206,13 +207,6 @@ export default function PageScanner() {
             {cameraStatus === SUCCESS && "Tap to continue."}
             {cameraStatus === ERROR && "Tap to continue."}
           </Paragraph>
-
-          <button
-            style={{ padding: 5 }}
-            onClick={() => processResult("NURUL AFNI|01116256250")}
-          >
-            TEST
-          </button>
         </Pane>
       </Pane>
     </>
