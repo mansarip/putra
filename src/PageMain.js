@@ -39,7 +39,11 @@ export default function App() {
           label="Scanner"
           onClick={() => history.push("/scanner")}
         />
-        <MainButton icon={SVGTeam} label="Logs" />
+        <MainButton
+          icon={SVGTeam}
+          label="Logs"
+          onClick={() => history.push("/logs")}
+        />
         <MainButton icon={SVGDocument} label="Guide" />
         <MainButton icon={SVGKey} label="Settings" />
         <MainButton icon={SVGBag} label="About" />
