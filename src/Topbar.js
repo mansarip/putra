@@ -26,6 +26,7 @@ export default function Topbar({
         right={0}
         display="grid"
         gridTemplateColumns={columnGrid}
+        zIndex={10}
       >
         {hasArrowBack && (
           <Pane

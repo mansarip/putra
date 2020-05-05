@@ -114,6 +114,7 @@ export default function PageScanner() {
       minute: now.format("mm"),
       isSuccess,
       rawData,
+      // date: "20200510",
     });
   }
 
@@ -208,7 +209,7 @@ export default function PageScanner() {
 
           <button
             style={{ padding: 5 }}
-            onClick={() => processResult("LUQMAN|0133155750")}
+            onClick={() => processResult("NURUL AFNI|01116256250")}
           >
             TEST
           </button>
