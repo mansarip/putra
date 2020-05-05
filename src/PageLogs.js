@@ -126,7 +126,7 @@ export default function PageLogs() {
                           >
                             {properDateFormat}
                           </Text>
-                          <Text color="#333" fontSize={13}>
+                          <Text color="#333" fontSize={14}>
                             Total record: {item.total}
                           </Text>
                         </Pane>
