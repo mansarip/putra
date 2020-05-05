@@ -132,7 +132,7 @@ export default function PageScanner() {
           <Pane
             display="flex"
             alignItems="center"
-            background="#e3690b"
+            background={isSoundOn ? "green" : "#e3690b"}
             paddingX={10}
             paddingY={6}
             color="#fff"
