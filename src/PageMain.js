@@ -1,11 +1,7 @@
 import React from "react";
-import { Pane, Text } from "evergreen-ui";
+import { Pane, Text, Icon } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
-import SVGQrcode from "./svg/qr-code.svg";
-import SVGBusiness from "./svg/business.svg";
-import SVGDocument from "./svg/document.svg";
 import SVGPutraLogo from "./svg/putralogo.svg";
-import SVGBag from "./svg/bag.svg";
 
 export default function App() {
   const history = useHistory();
@@ -47,31 +43,37 @@ export default function App() {
           padding={10}
         >
           <MainButton
-            icon={SVGQrcode}
+            // icon={SVGQrcode}
+            color="#084B8A"
+            icon="id-number"
             label="QR Code"
             onClick={() => history.push("/qr")}
           />
 
           <MainButton
-            icon={SVGBusiness}
+            // icon={SVGBusiness}
+            color="#BF0E08"
+            icon="camera"
             label="Scanner"
             onClick={() => history.push("/scanner")}
           />
 
           <MainButton
-            icon={SVGDocument}
+            // icon={SVGDocument}
+            color="#00783E"
+            icon="git-repo"
             label="Logs"
             onClick={() => history.push("/logs")}
           />
 
-          <MainButton icon={SVGBag} label="About" />
+          <MainButton icon="user" label="About" color="#37248F" />
         </Pane>
       </Pane>
     </>
   );
 }
 
-function MainButton({ label, icon, onClick, background }) {
+function MainButton({ label, icon, onClick, background, color }) {
   return (
     <Pane
       background={background || "#fff"}
@@ -90,7 +92,8 @@ function MainButton({ label, icon, onClick, background }) {
     >
       <Pane width={50} marginY={10}>
         {/* <img src={`/images/${icon}`} alt="" style={{ width: "100%" }} /> */}
-        <img src={icon} alt="" style={{ width: "100%" }} />
+        {/* <img src={icon} alt="" style={{ width: "100%" }} /> */}
+        <Icon icon={icon} size="100%" color={color} />
       </Pane>
       <Text fontSize={16} fontWeight="bold" color="#333">
         {label}

@@ -18,7 +18,8 @@ export default function Topbar({
       <Pane
         height={55}
         background="#fff"
-        boxShadow="0px 1px 5px 1px #ececec"
+        // boxShadow="0px 1px 5px 1px #ececec"
+        borderBottom="1px solid #ececec"
         userSelect="none"
         position="fixed"
         top={0}

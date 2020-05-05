@@ -17,7 +17,7 @@ const BEEP_OFF = "BEEP_OFF";
 
 const colors = {
   READY: {
-    background: "#ffeede",
+    background: "#ececec",
     border: "#ecdbca",
   },
   SUCCESS: {
@@ -179,17 +179,17 @@ export default function PageScanner() {
           alignItems="center"
           justifyContent="center"
           flexDirection="column"
+          onClick={handleClickShutter}
         >
           <Pane
             background={colors[cameraStatus].background}
-            borderBottom={`6px solid ${colors[cameraStatus].border}`}
+            // borderBottom={`6px solid ${colors[cameraStatus].border}`}
             height={100}
             width={100}
             borderRadius="50%"
             display="flex"
             alignItems="center"
             justifyContent="center"
-            onClick={handleClickShutter}
           >
             <Text
               color={cameraStatus !== READY ? "#fff" : "#333"}
@@ -202,8 +202,8 @@ export default function PageScanner() {
             </Text>
           </Pane>
 
-          <Paragraph color="#333" marginY={10} lineHeight={1.2}>
-            {cameraStatus === READY && "Ready to scan."}
+          <Paragraph color="#333" marginY={10} lineHeight={1.2} fontSize={17}>
+            {cameraStatus === READY && "Scan a QR code."}
             {cameraStatus === SUCCESS && "Tap to continue."}
             {cameraStatus === ERROR && "Tap to continue."}
           </Paragraph>

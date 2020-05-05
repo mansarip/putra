@@ -88,11 +88,11 @@ export default function PageQR() {
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow="ellipsis"
-                    fontSize={15}
+                    fontSize={17}
                   >
                     {capitalize.words(record.name)}
                   </Text>
-                  <Text color="#333" fontSize={13}>
+                  <Text color="#333" fontSize={15}>
                     {record.phone}
                   </Text>
                 </Pane>
@@ -123,7 +123,7 @@ export default function PageQR() {
         {!isLoading && list.length <= 0 && (
           <Paragraph
             color="#333"
-            fontSize={15}
+            fontSize={16}
             textAlign="center"
             paddingY={20}
           >
