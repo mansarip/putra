@@ -43,30 +43,32 @@ export default function App() {
           padding={10}
         >
           <MainButton
-            // icon={SVGQrcode}
-            color="#084B8A"
+            color="#1070CA"
             icon="id-number"
             label="QR Code"
             onClick={() => history.push("/qr")}
           />
 
           <MainButton
-            // icon={SVGBusiness}
-            color="#BF0E08"
+            color="#EC4C47"
             icon="camera"
             label="Scanner"
             onClick={() => history.push("/scanner")}
           />
 
           <MainButton
-            // icon={SVGDocument}
-            color="#00783E"
+            color="#47B881"
             icon="git-repo"
             label="Logs"
             onClick={() => history.push("/logs")}
           />
 
-          <MainButton icon="user" label="About" color="#37248F" />
+          <MainButton
+            icon="user"
+            label="About"
+            color="#735DD0"
+            onClick={() => history.push("/about")}
+          />
         </Pane>
       </Pane>
     </>
@@ -91,9 +93,7 @@ function MainButton({ label, icon, onClick, background, color }) {
       onClick={onClick || null}
     >
       <Pane width={50} marginY={10}>
-        {/* <img src={`/images/${icon}`} alt="" style={{ width: "100%" }} /> */}
-        {/* <img src={icon} alt="" style={{ width: "100%" }} /> */}
-        <Icon icon={icon} size="100%" color={color} />
+        <Icon icon={icon} size={40} color={color} />
       </Pane>
       <Text fontSize={16} fontWeight="bold" color="#333">
         {label}

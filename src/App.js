@@ -8,6 +8,7 @@ import PageScanner from "./PageScanner";
 import PageLogs from "./PageLogs";
 import PageLogDetails from "./PageLogDetails";
 import PageLogSearch from "./PageLogsSearch";
+import PageAbout from "./PageAbout";
 
 export default function App() {
   return (
@@ -43,6 +44,10 @@ export default function App() {
 
         <Route exact path="/logs/search">
           <PageLogSearch />
+        </Route>
+
+        <Route exact path="/about">
+          <PageAbout />
         </Route>
       </Switch>
     </Router>
