@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Topbar from "./Topbar";
-import { Icon, Spinner, Text, Pane, Paragraph, Dialog } from "evergreen-ui";
+import { Icon, Text, Pane, Paragraph, Dialog } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import db from "./db";
 import capitalize from "capitalize";
@@ -57,17 +57,6 @@ export default function PageQR() {
       />
 
       <Pane marginTop={55} userSelect="none">
-        {isLoading && (
-          <Pane
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            padding={20}
-          >
-            <Spinner />
-          </Pane>
-        )}
-
         {!isLoading && list.length > 0 && (
           <Pane background="#ececec">
             {list.map((record, index) => (

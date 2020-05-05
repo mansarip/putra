@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Topbar from "./Topbar";
-import { Position, Icon, Text, Pane, Paragraph, Popover } from "evergreen-ui";
+import {
+  Dialog,
+  Position,
+  Icon,
+  Text,
+  Pane,
+  Paragraph,
+  Popover,
+} from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import db from "./db";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -13,6 +21,7 @@ export default function PageLogDetails() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [list, setList] = useState([]);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const { dateTitle, date } = history.location.state;
 
   async function fetchList(date) {
@@ -72,6 +81,12 @@ export default function PageLogDetails() {
     hiddenElement.click();
   }
 
+  async function deleteLog() {
+    await db.table("log").where({ date: date }).delete();
+    setShowModalDelete(false);
+    history.replace("/logs");
+  }
+
   useEffect(() => {
     fetchList(date);
   }, [date]);
@@ -113,6 +128,10 @@ export default function PageLogDetails() {
                   title="Delete Log"
                   description="Permanently remove this log. Note that this action cannot be undone."
                   color="#cc0606"
+                  onClick={() => {
+                    close();
+                    setShowModalDelete(true);
+                  }}
                 />
               </Pane>
             )}
@@ -124,7 +143,7 @@ export default function PageLogDetails() {
               padding={15}
               paddingRight={0}
             >
-              <Icon icon="more" size={15} />
+              <Icon icon="chevron-down" size={18} />
             </Pane>
           </Popover>
         }
@@ -223,6 +242,64 @@ export default function PageLogDetails() {
           </Pane>
         )}
       </Pane>
+
+      {/* modal delete */}
+      <Dialog
+        isShown={showModalDelete}
+        hasHeader={false}
+        hasFooter={false}
+        onCloseComplete={() => setShowModalDelete(false)}
+      >
+        <Paragraph
+          fontSize={18}
+          color="#333"
+          fontWeight="bold"
+          textAlign="center"
+        >
+          <Icon icon="warning-sign" size={32} color="cc0606" />
+          <br />
+          Delete Log
+        </Paragraph>
+        <Paragraph color="#333" marginY={15} textAlign="center">
+          Are you sure you want to permanently delete this logs? This action
+          cannot be undone.
+        </Paragraph>
+        <Pane
+          display="grid"
+          gridTemplateColumns="1fr 1fr"
+          columnGap={10}
+          paddingX={10}
+        >
+          <Pane
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            background="#ececec"
+            height={35}
+            borderRadius={20}
+            className="tap"
+            onClick={() => setShowModalDelete(false)}
+          >
+            <Text fontSize={15} fontWeight="bold" color="#333">
+              Cancel
+            </Text>
+          </Pane>
+          <Pane
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            background="#cc0606"
+            height={35}
+            borderRadius={20}
+            className="tap"
+            onClick={deleteLog}
+          >
+            <Text fontSize={15} fontWeight="bold" color="#fff">
+              Yes, Delete
+            </Text>
+          </Pane>
+        </Pane>
+      </Dialog>
     </>
   );
 }
