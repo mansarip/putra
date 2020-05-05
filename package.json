@@ -11,6 +11,7 @@
     "evergreen-ui": "^4.27.4",
     "match-sorter": "^4.1.0",
     "moment": "^2.25.1",
+    "papaparse": "^5.2.0",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
