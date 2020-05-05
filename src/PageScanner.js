@@ -114,6 +114,7 @@ export default function PageScanner() {
       minute: now.format("mm"),
       isSuccess,
       rawData,
+      // date: "20200510",
     });
   }
 

@@ -18,7 +18,6 @@
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
     "replaceall": "^0.1.6",
-    "sort-objects-array": "^1.7.1",
     "use-sound": "^1.0.2"
   },
   "scripts": {

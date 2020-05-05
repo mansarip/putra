@@ -7,47 +7,32 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import moment from "moment/moment";
 
-export default function PageLogs() {
+export default function PageLogDetails() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [list, setList] = useState([]);
+  const { dateTitle, date } = history.location.state;
 
-  async function fetchList() {
-    // const records = await db.table("log").toArray();
-    const records = await db.table("log").orderBy("date").reverse().toArray();
-    let result = [];
-
-    for (const record of records) {
-      const existed = result.find((rec) => rec.date === record.date);
-
-      if (existed) {
-        continue;
-      }
-
-      result.push({
-        date: record.date,
-        total: records.filter((r) => r.date === record.date).length,
-      });
-    }
-
-    // result = sortObjectsArray(result, "date", "desc");
+  async function fetchList(date) {
+    let result = await db.table("log").where({ date: date }).sortBy("time");
+    result = result.reverse();
 
     setList(result);
     setIsLoading(false);
   }
 
   useEffect(() => {
-    fetchList();
-  }, []);
+    fetchList(date);
+  }, [date]);
 
   return (
     <>
       <Topbar
         hasArrowBack
-        onClickArrowBack={() => history.replace("/")}
+        onClickArrowBack={() => history.goBack()}
         leftElement={
           <Text fontSize={18} color="#333" fontWeight="bold">
-            Logs
+            {dateTitle}
           </Text>
         }
         rightElement={
@@ -82,31 +67,30 @@ export default function PageLogs() {
                   height={height}
                   width={width}
                   itemCount={list.length}
-                  itemSize={70}
+                  itemSize={100}
                 >
                   {({ index, style }) => {
                     let item = list[index];
-                    let properDateFormat = moment(item.date, "YYYYMMDD").format(
-                      "D MMM YYYY"
-                    );
 
                     return (
                       <Pane
                         style={style}
                         key={index}
                         display="grid"
-                        gridTemplateColumns="1fr 50px"
-                        columnGap={10}
-                        className="tap"
-                        marginBottom={1}
+                        gridTemplateColumns="20px 1fr 50px"
                         background={index % 2 === 0 ? "#fff" : "transparent"}
-                        onClick={() =>
-                          history.push("/logs/detail", {
-                            date: item.date,
-                            dateTitle: properDateFormat,
-                          })
-                        }
                       >
+                        <Pane
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          padding={15}
+                          textAlign="center"
+                        >
+                          <Text color="#333" fontSize={14}>
+                            {index + 1}
+                          </Text>
+                        </Pane>
                         <Pane
                           display="flex"
                           justifyContent="center"
@@ -122,10 +106,12 @@ export default function PageLogs() {
                             textOverflow="ellipsis"
                             fontSize={15}
                           >
-                            {properDateFormat}
+                            {item.name}
                           </Text>
-                          <Text color="#333" fontSize={13}>
-                            Total record: {item.total}
+                          <Text color="#333" fontSize={14}>
+                            Tel: {item.phone}
+                            <br />
+                            Time: {moment(item.time, "HHmm").format("HH:mm A")}
                           </Text>
                         </Pane>
                         <Pane
@@ -134,9 +120,12 @@ export default function PageLogs() {
                           alignItems="center"
                           flexDirection="row"
                           paddingRight={15}
+                          onClick={() =>
+                            (document.location.href = "tel:" + item.phone)
+                          }
                         >
                           <Icon
-                            icon="chevron-right"
+                            icon="phone"
                             color="grey"
                             marginRight={5}
                             size={15}
