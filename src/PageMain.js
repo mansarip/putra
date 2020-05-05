@@ -3,7 +3,6 @@ import { Pane, Text } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 import SVGQrcode from "./svg/qr-code.svg";
 import SVGBusiness from "./svg/business.svg";
-import SVGTeam from "./svg/team.svg";
 import SVGDocument from "./svg/document.svg";
 import SVGPutraLogo from "./svg/putralogo.svg";
 import SVGBag from "./svg/bag.svg";
