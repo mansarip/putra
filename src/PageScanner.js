@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Topbar from "./Topbar";
-import { Icon, Text, Pane, Paragraph } from "evergreen-ui";
+import { Icon, Text, Pane, Paragraph, Dialog, Button } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 // import { openDB } from "idb";
 import QrReader from "react-qr-reader";
@@ -9,6 +9,7 @@ import beep from "./beep.wav";
 import errorBuzz from "./error.wav";
 import moment from "moment/moment";
 import db from "./db";
+import capitalize from "capitalize";
 
 const READY = "READY";
 const SUCCESS = "SUCCESS";
@@ -42,6 +43,11 @@ export default function PageScanner() {
       return;
     }
 
+    // prevent untuk scan kali kedua secara auto
+    if (cameraStatus !== READY) {
+      return;
+    }
+
     const splitResult = result.split("|");
 
     if (splitResult.length > 2) {
@@ -66,6 +72,7 @@ export default function PageScanner() {
 
     setCameraStatus(ERROR);
 
+    // tak perlu dah nak rekod failed scan, kan?
     storeRecord({
       isSuccess: false,
       rawData: result,
@@ -209,6 +216,42 @@ export default function PageScanner() {
           </Paragraph>
         </Pane>
       </Pane>
+
+      <Dialog isShown hasHeader={false} hasFooter={false}>
+        <Paragraph color="#333" marginBottom={7}>
+          Result :
+          <br />
+          <Text color="green" fontWeight="bold" fontSize={16}>
+            SUCCESS <Icon icon="endorsed" size={12} />
+          </Text>
+        </Paragraph>
+
+        <Paragraph color="#333" marginBottom={7}>
+          Name :
+          <br />
+          <Text color="#333" fontWeight="bold" fontSize={16}>
+            {capitalize.words("LUQMAN SHARIFFUDIn")}
+          </Text>
+        </Paragraph>
+
+        <Paragraph color="#333" marginBottom={7}>
+          Phone Number :
+          <br />
+          <Text color="#333" fontWeight="bold" fontSize={16}>
+            {capitalize.words("0133155750")}
+          </Text>
+        </Paragraph>
+
+        <Button
+          marginTop={10}
+          height={40}
+          justifyContent="center"
+          width="100%"
+          appearance="primary"
+        >
+          Close
+        </Button>
+      </Dialog>
     </>
   );
 }
