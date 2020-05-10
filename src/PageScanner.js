@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Topbar from "./Topbar";
-import { Icon, Text, Pane, Paragraph } from "evergreen-ui";
+import { Icon, Text, Pane, Paragraph, Dialog, Textarea } from "evergreen-ui";
 import { useHistory } from "react-router-dom";
 // import { openDB } from "idb";
 import QrReader from "react-qr-reader";
@@ -9,6 +9,7 @@ import beep from "./beep.wav";
 import errorBuzz from "./error.wav";
 import moment from "moment/moment";
 import db from "./db";
+import capitalize from "capitalize";
 
 const READY = "READY";
 const SUCCESS = "SUCCESS";
@@ -36,9 +37,18 @@ export default function PageScanner() {
   const [playErrorBuzz] = useSound(errorBuzz);
   const [isSoundOn, setIsSoundOn] = useState(localStorage.getItem(BEEP_OFF) === "1" ? false : true); // prettier-ignore
   const [cameraStatus, setCameraStatus] = useState(READY);
+  const [isShowModalSuccess, setIsShowModalSuccess] = useState(false);
+  const [modalResultSuccess, setModalResultSuccess] = useState({});
+  const [isShowModalError, setIsShowModalError] = useState(false);
+  const [modalResultError, setModalResultError] = useState("");
 
   function processResult(result) {
     if (!result) {
+      return;
+    }
+
+    // prevent untuk scan kali kedua secara auto
+    if (cameraStatus !== READY) {
       return;
     }
 
@@ -65,11 +75,8 @@ export default function PageScanner() {
     }
 
     setCameraStatus(ERROR);
-
-    storeRecord({
-      isSuccess: false,
-      rawData: result,
-    });
+    setIsShowModalError(true);
+    setModalResultError(result);
   }
 
   function scanSuccess({ name, phone, result }) {
@@ -78,6 +85,8 @@ export default function PageScanner() {
     }
 
     setCameraStatus(SUCCESS);
+    setIsShowModalSuccess(true);
+    setModalResultSuccess({ name, phone });
 
     storeRecord({
       name,
@@ -207,8 +216,132 @@ export default function PageScanner() {
             {cameraStatus === SUCCESS && "Tap to continue."}
             {cameraStatus === ERROR && "Tap to continue."}
           </Paragraph>
+
+          {process.env.NODE_ENV === "development" && (
+            <>
+              <button onClick={() => processResult("LUQMAN|012345678")}>
+                Success
+              </button>
+
+              <button onClick={() => processResult("UNKNOWNTEXT")}>Fail</button>
+            </>
+          )}
         </Pane>
       </Pane>
+
+      <ModalSuccess
+        open={isShowModalSuccess}
+        onClose={() => {
+          setIsShowModalSuccess(false);
+          handleClickShutter();
+        }}
+        result={modalResultSuccess}
+      />
+
+      <ModalError
+        open={isShowModalError}
+        onClose={() => {
+          setIsShowModalError(false);
+          handleClickShutter();
+        }}
+        result={modalResultError}
+      />
     </>
+  );
+}
+
+function ModalSuccess({ open, onClose, result }) {
+  return (
+    <Dialog
+      isShown={open}
+      hasHeader={false}
+      hasFooter={false}
+      onCloseComplete={onClose}
+    >
+      <Paragraph color="#333" marginBottom={7}>
+        Result :
+        <br />
+        <Text color="green" fontWeight="bold" fontSize={16}>
+          SUCCESS <Icon icon="endorsed" size={12} />
+        </Text>
+      </Paragraph>
+
+      <Paragraph color="#333" marginBottom={7}>
+        Name :
+        <br />
+        <Text color="#333" fontWeight="bold" fontSize={16}>
+          {capitalize.words(result.name || "")}
+        </Text>
+      </Paragraph>
+
+      <Paragraph color="#333" marginBottom={7}>
+        Phone Number :
+        <br />
+        <Text color="#333" fontWeight="bold" fontSize={16}>
+          {capitalize.words(result.phone || "")}
+        </Text>
+      </Paragraph>
+
+      <Pane
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        background="#e3690b"
+        paddingX={10}
+        paddingY={10}
+        color="#fff"
+        borderRadius={20}
+        className="tap"
+        onClick={onClose}
+        marginTop={25}
+      >
+        <Text fontSize={14} color="inherit" fontWeight="bold">
+          CLOSE
+        </Text>
+      </Pane>
+    </Dialog>
+  );
+}
+
+function ModalError({ open, onClose, result }) {
+  return (
+    <Dialog
+      isShown={open}
+      hasHeader={false}
+      hasFooter={false}
+      onCloseComplete={onClose}
+    >
+      <Paragraph color="#333" marginBottom={7}>
+        Result :
+        <br />
+        <Text color={colors.ERROR.background} fontWeight="bold" fontSize={16}>
+          ERROR <Icon icon="warning-sign" size={12} />
+        </Text>
+      </Paragraph>
+
+      <Paragraph color="#333" marginBottom={7}>
+        QR Content :
+        <br />
+        <Textarea height={150} readOnly value={result}></Textarea>
+      </Paragraph>
+
+      <Pane
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        background="#e3690b"
+        paddingX={10}
+        paddingY={10}
+        color="#fff"
+        borderRadius={20}
+        className="tap"
+        onClick={onClose}
+        marginTop={25}
+      >
+        <Text fontSize={14} color="inherit" fontWeight="bold">
+          CLOSE
+        </Text>
+      </Pane>
+    </Dialog>
   );
 }
