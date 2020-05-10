@@ -69,7 +69,7 @@ Untuk kepastian, anda boleh memeriksa _source code_ Putra di [https://github.com
 
 ### Kredit
 
-Dihasilkan oleh Man Sarip (Luqman B. Shariffudin) [@luqmanrasa](https://twitter.com/luqmanrasa).
+Dihasilkan oleh Man Sarip (Luqman B. Shariffudin) [luqman@asia.com](mailto:luqman@asia.com).
 
 Icon digunakan, oleh [itim2101](https://www.flaticon.com/authors/itim2101).
 
