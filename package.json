@@ -25,9 +25,9 @@
     "use-sound": "^1.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts start",
+    "build": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
+    "test": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   }
 }

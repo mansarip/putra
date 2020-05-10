@@ -7,6 +7,10 @@ import { useHistory } from "react-router-dom";
 const content = `
 _Bahagian ini ditulis dalam Bahasa Melayu._
 
+### Versi
+
+v${process.env.REACT_APP_VERSION}
+
 ### Putra
 
 3 fungsi utama Putra:
